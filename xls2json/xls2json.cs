@@ -6,6 +6,17 @@ namespace xls2json
 {
     public partial class xls2json : Form
     {
+        private Log _log;
+        public Log Log
+        {
+            get
+            {
+                if( _log == null )
+                    _log = new Log(LogBox);
+                return _log;
+            }
+        }
+
         public xls2json()
         {
             InitializeComponent();
@@ -13,13 +24,12 @@ namespace xls2json
 
         private void Xls2json_Load(object sender, EventArgs e)
         {
-            Console.WriteLine("123");
-            Log(LogLevel.Info,"123");
+            Log.Succese("Application started");
         }
 
         private void Convert_Click(object sender, EventArgs e)
         {
-
+            Log.Info("转换成功");
         }
 
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -40,19 +50,8 @@ namespace xls2json
             pro.Start();
         }
 
-        private void Log(LogLevel level, string content)
-        {
-            LogBox.AppendText($"\n[<color=00ff00>{level}</color>]");
-        }
+
     }
 
 
-    enum LogLevel
-    {
-        Info,
-        Warning,
-        Error,
-        Succese,
-        Faild
-    }
 }

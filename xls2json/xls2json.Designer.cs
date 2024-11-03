@@ -35,8 +35,8 @@ namespace xls2json
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(xls2json));
             Convert = new Button();
             CheckBoxList = new CheckedListBox();
-            LogBox = new TextBox();
             Link = new LinkLabel();
+            LogBox = new RichTextBox();
             SuspendLayout();
             // 
             // Convert
@@ -53,12 +53,6 @@ namespace xls2json
             CheckBoxList.Name = "CheckBoxList";
             CheckBoxList.SelectedIndexChanged += checkedListBox1_SelectedIndexChanged;
             // 
-            // LogBox
-            // 
-            resources.ApplyResources(LogBox, "LogBox");
-            LogBox.Name = "LogBox";
-            LogBox.ReadOnly = true;
-            // 
             // Link
             // 
             resources.ApplyResources(Link, "Link");
@@ -66,12 +60,19 @@ namespace xls2json
             Link.TabStop = true;
             Link.LinkClicked += linkLabel1_LinkClicked;
             // 
+            // LogBox
+            // 
+            LogBox.AcceptsTab = true;
+            resources.ApplyResources(LogBox, "LogBox");
+            LogBox.Name = "LogBox";
+            LogBox.ReadOnly = true;
+            // 
             // xls2json
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(Link);
             Controls.Add(LogBox);
+            Controls.Add(Link);
             Controls.Add(CheckBoxList);
             Controls.Add(Convert);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -94,8 +95,8 @@ namespace xls2json
 
         private Button Convert;
         private CheckedListBox CheckBoxList;
-        private TextBox LogBox;
         private LinkLabel Link;
+        private RichTextBox LogBox;
 
         //private bool NotExcel(string f)
         //{

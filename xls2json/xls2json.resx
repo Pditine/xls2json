@@ -164,40 +164,6 @@
   <data name="&gt;&gt;CheckBoxList.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="LogBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>138, 6</value>
-  </data>
-  <data name="LogBox.MaxLength" type="System.Int32, mscorlib">
-    <value>999999</value>
-  </data>
-  <data name="LogBox.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="LogBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Horizontal</value>
-  </data>
-  <data name="LogBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 353</value>
-  </data>
-  <data name="LogBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="LogBox.Text" xml:space="preserve">
-    <value>欢迎使用xls2josn，这是一个Excel转Json工具，详细使用说明请点击下方链接【工程地址】</value>
-  </data>
-  <data name="&gt;&gt;LogBox.Name" xml:space="preserve">
-    <value>LogBox</value>
-  </data>
-  <data name="&gt;&gt;LogBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LogBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LogBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="Link.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -223,6 +189,34 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Link.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LogBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>138, 6</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LogBox.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="LogBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 353</value>
+  </data>
+  <data name="LogBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="LogBox.Text" xml:space="preserve">
+    <value>欢迎使用xls2josn，这是一个Excel转Json工具，详细使用说明请点击下方链接【工程地址】</value>
+  </data>
+  <data name="&gt;&gt;LogBox.Name" xml:space="preserve">
+    <value>LogBox</value>
+  </data>
+  <data name="&gt;&gt;LogBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LogBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LogBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

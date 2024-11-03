@@ -6,8 +6,69 @@ using System.Threading.Tasks;
 
 namespace xls2json
 {
-    public static class Log
+    public class Log(RichTextBox logBox)
     {
+        public RichTextBox LogBox => logBox;
+
+        public void Print(LogLevel level, string message)
+        {
+            var color = level switch
+            {
+                LogLevel.Info => Color.Blue,
+                LogLevel.Warning => Color.Yellow,
+                LogLevel.Error => Color.Red,
+                LogLevel.Succese => Color.Green,
+                LogLevel.Faild => Color.Red,
+                _ => Color.Black
+            };
+            var prefix = level.ToString();
+            //logBox.SelectionStart = logBox.TextLength;
+            logBox.AppendText("\n[");
+            logBox.SelectionColor = color;
+            logBox.AppendText(prefix);
+            logBox.SelectionColor = Color.Black;
+            // logBox.SelectionColor = Color.Black;
+            logBox.AppendText($"]{message}");
+            //logBox.SelectedText = message;
+
+            //logBox.SelectionLength = prefix.Length;
+
+
+        }
+
+        public void Info(string content)
+        {
+            Print(LogLevel.Info, content);
+        }
         
+        public void Warning(string content)
+        {
+            Print(LogLevel.Warning, content);
+        }
+        
+        public void Error(string content)
+        {
+            Print(LogLevel.Error, content);
+        }
+        
+        public void Succese(string content)
+        {
+            Print(LogLevel.Succese, content);
+        }
+        
+        public void Faild(string content)
+        {
+            Print(LogLevel.Faild, content);
+        }
+    }
+
+
+    public enum LogLevel
+    {
+        Info,
+        Warning,
+        Error,
+        Succese,
+        Faild
     }
 }
