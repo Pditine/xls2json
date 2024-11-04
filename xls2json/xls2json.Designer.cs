@@ -58,7 +58,7 @@ namespace xls2json
             resources.ApplyResources(Link, "Link");
             Link.Name = "Link";
             Link.TabStop = true;
-            Link.LinkClicked += linkLabel1_LinkClicked;
+            Link.LinkClicked += LinkLabel;
             // 
             // LogBox
             // 
@@ -71,13 +71,10 @@ namespace xls2json
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(CheckBoxList);
             Controls.Add(LogBox);
             Controls.Add(Link);
-            Controls.Add(CheckBoxList);
             Controls.Add(Convert);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            MaximizeBox = false;
-            MinimizeBox = false;
             Name = "xls2json";
             Load += Xls2json_Load;
             ResumeLayout(false);
