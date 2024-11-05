@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using System.Security.Policy;
+using System.Xml;
 
 namespace xls2json
 {
@@ -81,6 +81,21 @@ namespace xls2json
             LogBox.SelectionStart = LogBox.Text.Length;
             LogBox.SelectionLength = 0;
             LogBox.ScrollToCaret();
+        }
+
+        private void LoadExcel()
+        {
+            
+        }
+        
+        private void LoadSheet()
+        {
+               
+        }
+
+        private void WriteInJson()
+        {
+            
         }
     }
 }
