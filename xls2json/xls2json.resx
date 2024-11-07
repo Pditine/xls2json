@@ -118,29 +118,29 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Convert.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="ConvertButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>82, 394</value>
   </data>
-  <data name="Convert.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ConvertButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 23</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Convert.TabIndex" type="System.Int32, mscorlib">
+  <data name="ConvertButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="Convert.Text" xml:space="preserve">
+  <data name="ConvertButton.Text" xml:space="preserve">
     <value>转换</value>
   </data>
-  <data name="&gt;&gt;Convert.Name" xml:space="preserve">
-    <value>Convert</value>
+  <data name="&gt;&gt;ConvertButton.Name" xml:space="preserve">
+    <value>ConvertButton</value>
   </data>
-  <data name="&gt;&gt;Convert.Type" xml:space="preserve">
+  <data name="&gt;&gt;ConvertButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Convert.Parent" xml:space="preserve">
+  <data name="&gt;&gt;ConvertButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;Convert.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;ConvertButton.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="CheckBoxList.Location" type="System.Drawing.Point, System.Drawing">
@@ -202,13 +202,13 @@
     <value>Vertical</value>
   </data>
   <data name="LogBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 411</value>
+    <value>297, 411</value>
   </data>
   <data name="LogBox.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="LogBox.Text" xml:space="preserve">
-    <value>欢迎使用xls2josn，这是一个Excel转Json工具，详细使用说明请点击下方链接【工程地址】</value>
+    <value>欢迎使用xls2josn，这是一个Excel转Json工具，详细使用说明请点击左下方链接【工程地址】</value>
   </data>
   <data name="&gt;&gt;LogBox.Name" xml:space="preserve">
     <value>LogBox</value>
@@ -229,7 +229,7 @@
     <value>7, 17</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>414, 425</value>
+    <value>494, 425</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

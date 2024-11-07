@@ -10,8 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="Excel">
       <HintPath>Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader">
+      <HintPath>ExcelDataReader.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>ICSharpCode.SharpZipLib.dll</HintPath>

@@ -1,17 +1,28 @@
-using System;
 using System.Data;
 using System.Diagnostics;
 using System.Xml;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Excel;
 
 namespace xls2json
 {
     public partial class xls2json : Form
     {
-        private List<string> _excelNames;
+        private const string Website = "https://github.com/Pditine/xls2json";
         private string _excelPath = "./Excel/";
         private string ExcelPath => _excelPath;
         private string FullExcelPath => Path.GetFullPath(ExcelPath);
+        private string _jsonPath = "./Json/";
+        private string JsonPath => _jsonPath;
+        private string FullJsonPath => Path.GetFullPath(JsonPath);
+
+        // private List<string> SelectedExcelFileNames => SelectedExcelFilePaths.Select(name => name.Split("/").Last()).ToList();
+        
+        private Dictionary<string,string> _excelFilePaths = new();
+        
+        private List<string> SelectedExcelFilePaths => CheckBoxList.CheckedItems.Cast<string>().ToList();
+        
         private Log _log;
         public Log Log
         {
@@ -37,12 +48,12 @@ namespace xls2json
         {
             try
             {
-                ConvertExcel();
+                Convert();
             }
             catch (Exception exception)
             {
-                Log.Error(exception.Message + exception.StackTrace);
-                throw;
+                Log.Error(exception.Message);
+                //Log.Error(exception.Message + exception.StackTrace);
             }
 
         }
@@ -56,14 +67,15 @@ namespace xls2json
         {
             Process pro = new Process();
             pro.StartInfo.UseShellExecute = true;
-            pro.StartInfo.FileName = "https://github.com/Pditine/xls2json";
+            pro.StartInfo.FileName = Website;
             pro.Start();
         }
 
         private void Init()
         {
-            _excelNames = PreLoadExcelFiles();
-            AddExcelFileItem(_excelNames);
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            var excelNames = PreLoadExcelFiles();
+            AddExcelFileItem(excelNames);
         }
 
         private List<string> PreLoadExcelFiles()
@@ -76,11 +88,21 @@ namespace xls2json
             {
                 Log.Info($"从 {FullExcelPath} 加载文件");
             }
-            
+
+            if (!Path.Exists(JsonPath))
+            {
+                Directory.CreateDirectory(JsonPath);
+                Log.Info($"Json文件夹不存在，已自动创建 {FullJsonPath}");
+            }
+
             var files = Directory.GetFiles(ExcelPath);
             var fileList = new List<string>(files);
             fileList.RemoveAll(f => !f.EndsWith(".xls") && !f.EndsWith(".xlsx"));
-            return fileList;
+            foreach (var file in fileList)
+            {
+                _excelFilePaths.Add(file.Split("/").Last(),file);
+            }
+            return _excelFilePaths.Keys.ToList();
         }
 
         private void AddExcelFileItem(List<string> files)
@@ -110,47 +132,90 @@ namespace xls2json
                 Log.Error($"文件不存在 {excelPath}");
                 return;
             }
+            Log.Info($"加载文件 {excelPath}");
             using var fs = File.Open(excelPath, FileMode.Open, FileAccess.Read);
-            var excelDataReader = ExcelReaderFactory.CreateBinaryReader(fs);
-            //todo: 分支判断
-            //var excelDataReader = ExcelReaderFactory.CreateOpenXmlReader(fs);
+            IExcelDataReader excelDataReader;
+            if(excelPath.EndsWith(".xls"))
+            {
+                excelDataReader = ExcelReaderFactory.CreateBinaryReader(fs);
+            }
+            else
+            {
+                excelDataReader = ExcelReaderFactory.CreateOpenXmlReader(fs);
+            }
             var result = excelDataReader.AsDataSet();
             if(result == null)
             {
-                Log.Error($"文件读取失败 {excelPath}");
+                Log.Error($"文件读取失败 {excelPath} : {excelDataReader.ExceptionMessage}");
                 return;
             }
             
             foreach (DataTable table in result.Tables)
             {
-                LoadSheet(table);
+                LoadSheet(excelPath,table);
             }
             
+            Log.Succese("文件处理完成");
             fs.Close();
         }
         
-        private void LoadSheet(DataTable table)
+        private void LoadSheet(string filePath, DataTable table)
         {
+            var jsonObject = new JsonObject();
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            Log.Info("处理表格:" + table.TableName);
+            jsonObject["Meta"] = GetFileHead(filePath, table.TableName);
+            var jsonString = jsonObject.ToJsonString(options);
+
+            int keyIndex = -1;
+
+            // DataRow tagRow = table.Rows[0];
+            // foreach (DataColumn column in table.Columns)
+            // {
+            //     Log.Debug(tagRow[column].ToString());
+            //     if (tagRow[column].ToString().ToLower() == "key")
+            //     {
+            //         keyIndex = column.Ordinal;
+            //         break;
+            //     }
+            // }
             foreach (DataRow row in table.Rows)
             {
-                foreach (DataColumn column in table.Columns)
+                foreach (DataColumn col in table.Columns)
                 {
-                    var value = row[column];
-                    Log.Debug(value.ToString());
+                    Log.Debug(row[col].ToString());   
                 }
             }
-        }
-
-        private void WriteInJson()
-        {
             
+            if(keyIndex == -1)
+            {
+                Log.Error("未找到主键key");
+                return;
+            }
+            Log.Debug(keyIndex.ToString());
+            var jsonPath = JsonPath + table.TableName + ".json";
+            File.Create(jsonPath).Close();
+            File.WriteAllText(jsonPath, jsonString);
+            
+            Log.Succese($"已生成文件 {jsonPath}");
         }
 
-        private void ConvertExcel()
+        private JsonNode GetFileHead(string filePath,string tableName)
         {
-            foreach (string excelName in _excelNames)
+            var meta = new JsonObject();
+            meta["Description"] = "This file is generated by xls2json, do not modify it manually.";
+            meta["CopyRight"] = "Pditine";
+            meta["Official Website"] = Website;
+            meta["File"] = filePath;
+            meta["Sheet"] = tableName;
+            return meta;
+        }
+
+        private void Convert()
+        {
+            foreach (string item in CheckBoxList.CheckedItems)
             {
-                LoadExcel(excelName);
+                LoadExcel(_excelFilePaths[item]);
             }
 
             LogBoxToBottom();

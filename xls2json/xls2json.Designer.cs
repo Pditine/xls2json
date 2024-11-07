@@ -33,18 +33,18 @@ namespace xls2json
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(xls2json));
-            Convert = new Button();
+            ConvertButton = new Button();
             CheckBoxList = new CheckedListBox();
             Link = new LinkLabel();
             LogBox = new RichTextBox();
             SuspendLayout();
             // 
-            // Convert
+            // ConvertButton
             // 
-            resources.ApplyResources(Convert, "Convert");
-            Convert.Name = "Convert";
-            Convert.UseVisualStyleBackColor = true;
-            Convert.Click += Convert_Click;
+            resources.ApplyResources(ConvertButton, "ConvertButton");
+            ConvertButton.Name = "ConvertButton";
+            ConvertButton.UseVisualStyleBackColor = true;
+            ConvertButton.Click += Convert_Click;
             // 
             // CheckBoxList
             // 
@@ -74,7 +74,7 @@ namespace xls2json
             Controls.Add(CheckBoxList);
             Controls.Add(LogBox);
             Controls.Add(Link);
-            Controls.Add(Convert);
+            Controls.Add(ConvertButton);
             Name = "xls2json";
             Load += Xls2json_Load;
             ResumeLayout(false);
@@ -90,7 +90,7 @@ namespace xls2json
             //fileList.RemoveAll(f => f.)
         }
 
-        private Button Convert;
+        private Button ConvertButton;
         private CheckedListBox CheckBoxList;
         private LinkLabel Link;
         private RichTextBox LogBox;
