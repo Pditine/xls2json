@@ -63,6 +63,7 @@ namespace xls2json
             // LogBox
             // 
             LogBox.AcceptsTab = true;
+            LogBox.ForeColor = SystemColors.WindowText;
             resources.ApplyResources(LogBox, "LogBox");
             LogBox.Name = "LogBox";
             LogBox.ReadOnly = true;

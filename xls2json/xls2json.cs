@@ -24,15 +24,7 @@ namespace xls2json
         private List<string> SelectedExcelFilePaths => CheckBoxList.CheckedItems.Cast<string>().ToList();
         
         private Log _log;
-        public Log Log
-        {
-            get
-            {
-                if (_log == null)
-                    _log = new Log(LogBox);
-                return _log;
-            }
-        }
+        private Log Log => _log ??= new Log(LogBox);
 
         public xls2json()
         {
@@ -97,7 +89,7 @@ namespace xls2json
 
             var files = Directory.GetFiles(ExcelPath);
             var fileList = new List<string>(files);
-            fileList.RemoveAll(f => !f.EndsWith(".xls") && !f.EndsWith(".xlsx"));
+            fileList.RemoveAll(f => (!f.EndsWith(".xls") && !f.EndsWith(".xlsx"))||f.Contains("~$"));
             foreach (var file in fileList)
             {
                 _excelFilePaths.Add(file.Split("/").Last(),file);
@@ -133,7 +125,7 @@ namespace xls2json
                 return;
             }
             Log.Info($"加载文件 {excelPath}");
-            using var fs = File.Open(excelPath, FileMode.Open, FileAccess.Read);
+            using var fs = File.Open(excelPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             IExcelDataReader excelDataReader;
             if(excelPath.EndsWith(".xls"))
             {
@@ -164,35 +156,33 @@ namespace xls2json
             var jsonObject = new JsonObject();
             var options = new JsonSerializerOptions { WriteIndented = true };
             Log.Info("处理表格:" + table.TableName);
-            jsonObject["Meta"] = GetFileHead(filePath, table.TableName);
-            var jsonString = jsonObject.ToJsonString(options);
+            //jsonObject["Meta"] = GetFileHead(filePath, table.TableName);
 
-            int keyIndex = -1;
-
-            // DataRow tagRow = table.Rows[0];
-            // foreach (DataColumn column in table.Columns)
-            // {
-            //     Log.Debug(tagRow[column].ToString());
-            //     if (tagRow[column].ToString().ToLower() == "key")
-            //     {
-            //         keyIndex = column.Ordinal;
-            //         break;
-            //     }
-            // }
-            foreach (DataRow row in table.Rows)
+            
+            int keyIndex = FindTagIndex("key", table);
+            if(keyIndex == -1)
             {
-                foreach (DataColumn col in table.Columns)
+                Log.Error("未找到key列");
+                return;
+            }
+
+            DataColumn keyCol = table.Columns[keyIndex];
+            
+            //对于key列的每个有效数据行
+            for (int i = 4; i < table.Rows.Count; i++)
+            {
+                JsonNode node = new JsonObject();
+                jsonObject[table.Rows[i][keyIndex].ToString()] = node;
+                
+                //进行逐列操作
+                for (int j = 0; j < table.Columns.Count; j++)
                 {
-                    Log.Debug(row[col].ToString());   
+                    var value = table.Rows[i][j].ToString();
+                    node[table.Rows[1][j].ToString()] = value;
                 }
             }
             
-            if(keyIndex == -1)
-            {
-                Log.Error("未找到主键key");
-                return;
-            }
-            Log.Debug(keyIndex.ToString());
+            var jsonString = jsonObject.ToJsonString(options);
             var jsonPath = JsonPath + table.TableName + ".json";
             File.Create(jsonPath).Close();
             File.WriteAllText(jsonPath, jsonString);
@@ -200,6 +190,7 @@ namespace xls2json
             Log.Succese($"已生成文件 {jsonPath}");
         }
 
+        [Obsolete]
         private JsonNode GetFileHead(string filePath,string tableName)
         {
             var meta = new JsonObject();
@@ -219,6 +210,19 @@ namespace xls2json
             }
 
             LogBoxToBottom();
+        }
+        
+        private int FindTagIndex(string tag, DataTable table)
+        {
+            foreach (DataColumn column in table.Columns)
+            {
+                if (table.Rows[3][column].ToString().ToLower() == tag)
+                {
+                    return column.Ordinal;
+                }
+            }
+            
+            return -1;
         }
     }
 }
