@@ -14,10 +14,5 @@ namespace xls2json
             ApplicationConfiguration.Initialize();
             Application.Run(new xls2json());
         }
-
-        private static void PreLoadExcel()
-        {
-
-        }
     }
 }
